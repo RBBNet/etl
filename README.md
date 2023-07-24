@@ -1,4 +1,4 @@
-# Etração, Transformação e Carga dos dados da rede RBB
+# Extração, Transformação e Carga dos dados da rede RBB
 Este projeto demonstra como extrair dados da blockchain RBB e carregá-lo em uma base de dados transacional. Isso permitirá observações variadas sobre a blockchain da RBB usando consultas SQL ou outras ferramentas analíticas, sendo um recurso valioso para atendimento do seu requisito de **transparência**.
 
 O projeto usa o framework de código aberto [ethereum-etl](https://github.com/blockchain-etl/ethereum-etl). Este framework é usado para disponibilizar publicamente os dados da rede Ethereum no [Google BigQuery](https://goo.gl/oY5BCQ). Os esquemas de dados são aqueles providos pelo projeto [ethereum-etl-postgres](https://github.com/blockchain-etl/ethereum-etl-postgres).
