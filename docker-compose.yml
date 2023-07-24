@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+  ethereum-etl:
+    container_name: ethereum-etl
+    image: blockchainetl/ethereum-etl:2.2.1
+    networks:
+      - etl_net
+    extra_hosts:
+      - "rbb-node:host-gateway"
+      # - "rbb-node: 10.5.0.11"
+    volumes:
+      - ./sync:/ethereum-etl/sync
+    entrypoint: ethereumetl stream --provider-uri http://rbb-node:8591 --last-synced-block-file ./sync/last_synced_block.txt -e block,contract,log,token_transfer,token,trace,transaction -o postgresql+pg8000://rbbusr:rbbpwd@postgres:5432/rbb
+    stdin_open: true
+    tty: true
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    command:
+      [
+        "postgres",
+        "-cshared_preload_libraries=pg_stat_statements"
+      ]
+    environment:
+      POSTGRES_USER: rbbusr
+      POSTGRES_PASSWORD: rbbpwd
+      POSTGRES_DB: rbb
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./sql:/data/sql
+    networks:
+      - etl_net
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    user: root
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "caleo@prodemge.gov.br"
+      PGADMIN_DEFAULT_PASSWORD: "rbbpwd"
+    ports:
+      - "5080:80"
+    depends_on:
+      - postgres
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    networks:
+      - etl_net
+
+networks:
+  etl_net:
+    driver: bridge
