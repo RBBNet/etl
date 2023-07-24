@@ -3,11 +3,11 @@ Este projeto demonstra como extrair dados da blockchain RBB e carregá-lo em uma
 
 O projeto usa o framework de código aberto [ethereum-etl](https://github.com/blockchain-etl/ethereum-etl). Este framework é usado para disponibilizar publicamente os dados da rede Ethereum no [Google BigQuery](https://goo.gl/oY5BCQ). Os esquemas de dados são aqueles providos pelo projeto [ethereum-etl-postgres](https://github.com/blockchain-etl/ethereum-etl-postgres).
 
-    ----------   
-    -        -     HTTP-RPC
-    - Nó RBB -   ------------>
-    -        -    (streaming)
-    ---------- 
+    ----------                    ----------------                    ------------ 
+    -        -     HTTP-RPC       -              -                    -          -
+    - Nó RBB -   ------------>    - ethereum-etl -   ------------>    - Postgres -
+    -        -    (streaming)     -              -                    -          -
+    ----------                    ----------------                    ------------
 
 **OBS:** É  possível executar o *streaming* de dados usando o protocolo IPC para melhor desempenho, porém este método não foi testado neste projeto.
 
