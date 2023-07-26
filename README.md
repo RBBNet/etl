@@ -21,25 +21,25 @@ O projeto usa o framework de código aberto [ethereum-etl](https://github.com/bl
 ### Criando os esquemas de dados no Postgres
 1. Inicie o *container* do Postgres. 
 ```
-$ docker-compose up -d postgres
+docker-compose up -d postgres
 ```
 
 Confira se o *container* está em execução e verifique o seu log.
 ```
-$ docker ps
-$ docker logs postgres
+docker ps
+docker logs postgres
 ```
 
 2. Se o serviço do Postgres executar com sucesso, prossiga com a criação das tabelas e índices:
 **OBS:** Os comandos a seguir serão executados em um terminal do *host*, mas poderiam ser executados diretamente em um terminal do *container* do Postgres, através da aplicação *psql*.
 ```
-$ docker exec -it postgres sh -c "cat /data/sql/schema/*.sql | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
-$ docker exec -it postgres sh -c "cat /data/sql/indexes/*.sql | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
+docker exec -it postgres sh -c "cat /data/sql/schema/*.sql | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
+docker exec -it postgres sh -c "cat /data/sql/indexes/*.sql | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
 ```
 
 Verifique se as tabelas foram criadas com sucesso:
 ```
-$ docker exec -it postgres sh -c "echo '\dt' | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
+docker exec -it postgres sh -c "echo '\dt' | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
 ```
 Exemplo de resultado:
 ```
@@ -60,7 +60,7 @@ Exemplo de resultado:
 
 Verifique se os índices foram criados com sucesso:
 ```
-$ docker exec -it postgres sh -c "echo \"
+docker exec -it postgres sh -c "echo \"
 SELECT
     tablename,
     indexname,
@@ -84,13 +84,13 @@ Para maiores detalhes do processo, verifique o comando no arquivo ***docker-comp
 
 Para iniciar a extração e carga, ajuste no arquivo docker-compose.yml o parâmetro de identificação do nó provedor dos dados e execute:
 ```
-$ docker-compose up -d ethereum-etl
+docker-compose up -d ethereum-etl
 ```
 
 Verifique se o container está em execução e se a extração e carga está ocorrendo:
 ```
-$ docker ps
-$ docker logs -f ethereum-etl
+docker ps
+docker logs -f ethereum-etl
 ```
 
 ### Verificando o consumo de *gas* por organização
@@ -98,7 +98,7 @@ Para obter o consumo de *gas* por organização autorizada a enviar transações
 
 Execute a consulta a seguir, cujo arquivo SQL poderá ser modificado com os critérios de restrição desejados.
 ```
-$ docker exec -it postgres sh -c "cat /data/sql/queries/gas_usage_by_organization.sql | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
+docker exec -it postgres sh -c "cat /data/sql/queries/gas_usage_by_organization.sql | psql -U rbbusr -d rbb -h 127.0.0.1  --port 5432 -a"
 ```
 
 Exemplo de retorno:
@@ -114,7 +114,7 @@ O projeto também inclui um container com o pgAdmin que pode, opcionalmente, ser
 
 Para iniciar o pgAdmin, execute:
 ```
-$ docker-compose up -d pgadmin
+docker-compose up -d pgadmin
 ```
 
 Acesse a interface do pgAdmin na máquina *host* em http://localhost:5080
